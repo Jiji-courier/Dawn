@@ -11,6 +11,7 @@ function App() {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
+  const [savedBooks, setSavedBooks] = useState([])
 
   async function searchBooks() {
     setLoading(true)
@@ -20,9 +21,36 @@ function App() {
     setLoading(false)
   }
 
+  function saveBook(book) {
+    setSavedBooks([...savedBooks, book])
+  }
+
   let loadingMessage = null
   if (loading) {
     loadingMessage = <p>Searching...</p>
+  }
+
+  let noResultsMessage = null
+  if (!loading && query && results.length == 0) {
+    noResultsMessage = <p> We searched far and wide but found nothing. You should write the book!</p>
+  }
+
+  let savedSection = null
+  if (savedBooks.length > 0) {
+    savedSection = (
+      <div>
+        <h2>Saved Books</h2>
+        {savedBooks.map((book, index) => (
+          <BookCard
+          key={index}
+          title={book.title}
+          author={book.author_name?.[0]}
+          coverUrl={book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : ''}
+          description={book.first_sentence?.[0]}
+          />
+        ))}
+      </div>
+    )
   }
 
   return (
@@ -41,6 +69,7 @@ function App() {
         </div>
         <SearchBar onSearch={searchBooks} onType={setQuery} />
         {loadingMessage}
+        {noResultsMessage}
         {results.map((book) => (
           <BookCard
             key={book.key}
@@ -48,8 +77,10 @@ function App() {
             author={book.author_name?.[0]}
             coverUrl={book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : ''}
             description={book.first_sentence?.[0]}
+            onSave={() => saveBook(book)}
           />
         ))}
+        {savedSection}
         <button
           type="button"
           className="counter"
