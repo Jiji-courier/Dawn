@@ -1,7 +1,7 @@
 function SearchBar({ onSearch }) {
     return (
         <div>
-            <h1>Search for a book name</h1>
+            <input type="text" placeholder = "Search for a book name" />
             <button>Search</button>
         </div>
     )
