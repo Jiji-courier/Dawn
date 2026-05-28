@@ -25,6 +25,10 @@ function App() {
     setSavedBooks([...savedBooks, book])
   }
 
+  function clearSaved() {
+    setSavedBooks([])
+  }
+  
   let loadingMessage = null
   if (loading) {
     loadingMessage = <p>Searching...</p>
@@ -39,6 +43,7 @@ function App() {
   if (savedBooks.length > 0) {
     savedSection = (
       <div>
+        <button onClick={clearSaved}>Clear Saved</button>
         <h2>Saved Books</h2>
         {savedBooks.map((book, index) => (
           <BookCard
