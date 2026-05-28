@@ -10,11 +10,19 @@ function App() {
   const [count, setCount] = useState(0)
   const [query, setQuery] = useState('')
   const [results, setResults] = useState([])
+  const [loading, setLoading] = useState(false)
 
   async function searchBooks() {
+    setLoading(true)
     const response = await fetch(`https://openlibrary.org/search.json?q=${query}&limit=10`)
     const data = await response.json()
     setResults(data.docs)
+    setLoading(false)
+  }
+
+  let loadingMessage = null
+  if (loading) {
+    loadingMessage = <p>Searching...</p>
   }
 
   return (
@@ -32,6 +40,7 @@ function App() {
           </p>
         </div>
         <SearchBar onSearch={searchBooks} onType={setQuery} />
+        {loadingMessage}
         {results.map((book) => (
           <BookCard
             key={book.key}
