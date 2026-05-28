@@ -1,4 +1,4 @@
-function SearchBar(onSearch, onType) {
+function SearchBar({onSearch, onType}) {
     return (
         <div>
             <input 
