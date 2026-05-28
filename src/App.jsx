@@ -12,7 +12,7 @@ function App() {
   const [results, setResults] = useState([])
 
   async function searchBooks() {
-    const response = await fetch('https://openlibrary.org/search.json?q=${query}&limit=10')
+    const response = await fetch(`https://openlibrary.org/search.json?q=${query}&limit=10`)
     const data = await response.json()
     setResults(data.docs)
   }
@@ -37,7 +37,7 @@ function App() {
             key={book.key}
             title={book.title}
             author={book.authorname?.[0]}
-            coverUrl={book.cover_i ? 'https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg' : ''}
+            coverUrl={book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : ''}
             description={book.first_sentence?.[0]}
           />
         ))}
