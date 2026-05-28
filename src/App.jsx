@@ -36,7 +36,7 @@ function App() {
           <BookCard
             key={book.key}
             title={book.title}
-            author={book.authorname?.[0]}
+            author={book.author_name?.[0]}
             coverUrl={book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : ''}
             description={book.first_sentence?.[0]}
           />
