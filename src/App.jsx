@@ -4,9 +4,18 @@ import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
 import SearchBar from './components/SearchBar';
+import BookCard from './components/BookCard'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [query, setQuery] = useState('')
+  const [results, setResults] = useState([])
+
+  async function searchBooks() {
+    const response = await fetch('https://openlibrary.org/search.json?q=${query}&limit=10')
+    const data = await response.json()
+    setResults(data.docs)
+  }
 
   return (
     <>
@@ -22,7 +31,16 @@ function App() {
             Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
           </p>
         </div>
-        <SearchBar />
+        <SearchBar onSearch={searchBooks} onType={setQuery} />
+        {results.map((book) => (
+          <BookCard
+            key={book.key}
+            title={book.title}
+            author={book.authorname?.[0]}
+            coverUrl={book.cover_i ? 'https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg' : ''}
+            description={book.first_sentence?.[0]}
+          />
+        ))}
         <button
           type="button"
           className="counter"
