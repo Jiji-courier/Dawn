@@ -12,6 +12,7 @@ function App() {
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
   const [savedBooks, setSavedBooks] = useState([])
+  const [hasSearched, setHasSearched] = useState(false)
 
   async function searchBooks() {
     setLoading(true)
@@ -19,6 +20,7 @@ function App() {
     const data = await response.json()
     setResults(data.docs)
     setLoading(false)
+    setHasSearched(true)
   }
 
   function saveBook(book) {
@@ -35,7 +37,7 @@ function App() {
   }
 
   let noResultsMessage = null
-  if (!loading && query && results.length == 0) {
+  if (!loading && hasSearched && results.length == 0) {
     noResultsMessage = <p> We searched far and wide but found nothing. You should write the book!</p>
   }
 
@@ -43,8 +45,8 @@ function App() {
   if (savedBooks.length > 0) {
     savedSection = (
       <div>
-        <button onClick={clearSaved}>Clear Saved</button>
         <h2>Saved Books</h2>
+        <button className="clear-button" onClick={clearSaved}>Clear Saved</button>
         {savedBooks.map((book, index) => (
           <BookCard
           key={index}
