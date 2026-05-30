@@ -3,7 +3,6 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useState } from 'react'
 import { Spinner } from "@/components/ui/spinner"
-
 import './App.css'
 
 function App() {
@@ -11,6 +10,7 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [savedBooks, setSavedBooks] = useState([])
   const [hasSearched, setHasSearched] = useState(false)
+  const [activeTab, setActiveTab] = useState('results')
 
   async function searchBooks(query) {
     setLoading(true)
@@ -65,25 +65,33 @@ function App() {
   return (
     <>
       <section id="center">
-        <Input onInput={(e) => searchBooks(e.currentTarget.value)} />
-        {loading && <>
-          <Spinner />
-          <p>Searching...</p></>
-        }
-        {noResultsMessage}
-        {results?.map((book) => (
-          <Card
-            key={book.key}
-            className="bg-blue-100/20 backdrop-blur-sm rounded-lg p-4 text-white"
-          >
-            <img src={book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : ''} alt={book.title} />
-            <h2>{book.title}</h2>
-            <p>{book.author_name?.[0]}</p>
-            <p>{book.first_sentence?.[0]}</p>
-            <Button onClick={() => saveBook(book)}>Save This</Button>
-          </Card>
-        ))}
-        {savedSection}
+        <div>
+          <button onClick={() => setActiveTab('results')}>Results</button>
+          <button onClick={() => setActiveTab('saved')}>Saved</button>
+        </div>
+        {activeTab === 'results' && (
+          <>
+          <Input onInput={(e) => searchBooks(e.currentTarget.value)} />
+          {loading && <>
+            <Spinner />
+            <p>Searching...</p></>
+          }
+          {noResultsMessage}
+          {results?.map((book) => (
+            <Card
+              key={book.key}
+              className="bg-blue-100/20 backdrop-blur-sm rounded-lg p-4 text-white"
+            >
+              <img src={book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : ''} alt={book.title} />
+              <h2>{book.title}</h2>
+              <p>{book.author_name?.[0]}</p>
+              <p>{book.first_sentence?.[0]}</p>
+              <Button onClick={() => saveBook(book)}>Save This</Button>
+            </Card>
+          ))}
+          </>
+        )}
+        {activeTab === 'saved' && savedSection}
       </section>
     </>
   )
