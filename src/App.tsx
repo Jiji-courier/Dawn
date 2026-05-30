@@ -37,7 +37,7 @@ function App() {
 
   let noResultsMessage = null
   if (!loading && hasSearched && results?.length == 0) {
-    noResultsMessage = <p> We searched far and wide but found nothing. You should write the book!</p>
+    noResultsMessage = <p> The shelves are quiet on that one. Perhaps it's still being written.</p>
   }
 
   let savedSection = null
@@ -67,6 +67,7 @@ function App() {
       <section id="center">
         <div className="text-center mb-8">
         <h1 className="text-4xl font-bold mb-2">Dawn</h1>
+        <p className="text-sm opacity-60">When night yields to day, the searching mind finds its first light</p>
       </div>
         <div className="flex gap-2 mb-4 w-full">
           <Button variant={activeTab === 'library' ? 'default' : 'outline'} onClick={() => setActiveTab('library')}>Library</Button>
