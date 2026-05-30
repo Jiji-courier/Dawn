@@ -10,7 +10,7 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [savedBooks, setSavedBooks] = useState([])
   const [hasSearched, setHasSearched] = useState(false)
-  const [activeTab, setActiveTab] = useState('results')
+  const [activeTab, setActiveTab] = useState('library')
 
   async function searchBooks(query) {
     setLoading(true)
@@ -66,10 +66,10 @@ function App() {
     <>
       <section id="center">
         <div className="flex gap-2 mb-4">
-          <Button variant={activeTab === 'results' ? 'default' : 'outline'} onClick={() => setActiveTab('results')}>Results</Button>
+          <Button variant={activeTab === 'library' ? 'default' : 'outline'} onClick={() => setActiveTab('library')}>Library</Button>
           <Button variant={activeTab === 'saved' ? 'default' : 'outline'} onClick={() => setActiveTab('saved')}>Saved</Button>
         </div>
-        {activeTab === 'results' && (
+        {activeTab === 'library' && (
           <>
           <Input onInput={(e) => searchBooks(e.currentTarget.value)} />
           {loading && <>
