@@ -65,6 +65,9 @@ function App() {
   return (
     <>
       <section id="center">
+        <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold mb-2">Dawn</h1>
+      </div>
         <div className="flex gap-2 mb-4 w-full">
           <Button variant={activeTab === 'library' ? 'default' : 'outline'} onClick={() => setActiveTab('library')}>Library</Button>
           <Button variant={activeTab === 'saved' ? 'default' : 'outline'} onClick={() => setActiveTab('saved')}>Saved</Button>
