@@ -2,6 +2,7 @@ import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useState } from 'react'
+import { Spinner } from "@/components/ui/spinner"
 
 import './App.css'
 
@@ -30,6 +31,7 @@ function App() {
   
   let loadingMessage = null
   if (loading) {
+    <Spinner />
     loadingMessage = <p>Searching...</p>
   }
 
@@ -63,7 +65,10 @@ function App() {
     <>
       <section id="center">
         <Input onInput={(e) => searchBooks(e.currentTarget.value)} />
-        {loadingMessage}
+        {loading && <>
+          <Spinner />
+          <p>Searching...</p></>
+        }
         {noResultsMessage}
         {results?.map((book) => (
           <Card
