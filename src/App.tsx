@@ -45,13 +45,13 @@ function App() {
     savedSection = (
       <div>
         <h2>Saved Books</h2>
-        <Button onClick={clearSaved}>Clear Saved</Button>
+        <Button className="my-4" onClick={clearSaved}>Clear Saved</Button>
         {savedBooks.map((book, _) => (
           <Card
             key={book.key}
-            className="bg-blue-100/20 backdrop-blur-sm rounded-lg p-4 text-white"
+            className="bg-blue-100/20 backdrop-blur-sm rounded-lg p-4 text-white overflow-hidden"
           >
-            <img src={book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : ''} alt={book.title} />
+            <img className="w-full max-h-48 object-cover rounded mt-4" src={book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : ''} alt={book.title} />
             <h2>{book.title}</h2>
             <p>{book.author_name?.[0]}</p>
             <p>{book.first_sentence?.[0]}</p>
@@ -65,7 +65,7 @@ function App() {
   return (
     <>
       <section id="center">
-        <div className="flex gap-2 mb-4">
+        <div className="flex gap-2 mb-4 w-full">
           <Button variant={activeTab === 'library' ? 'default' : 'outline'} onClick={() => setActiveTab('library')}>Library</Button>
           <Button variant={activeTab === 'saved' ? 'default' : 'outline'} onClick={() => setActiveTab('saved')}>Saved</Button>
         </div>
@@ -80,9 +80,9 @@ function App() {
           {results?.map((book) => (
             <Card
               key={book.key}
-              className="bg-blue-100/20 backdrop-blur-sm rounded-lg p-4 text-white"
+              className="bg-blue-100/20 backdrop-blur-sm rounded-lg p-4 text-white overflow-hidden"
             >
-              <img src={book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : ''} alt={book.title} />
+              <img className="w-full max-h-48 object-cover rounded mt-4" src={book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : ''} alt={book.title} />
               <h2>{book.title}</h2>
               <p>{book.author_name?.[0]}</p>
               <p>{book.first_sentence?.[0]}</p>
