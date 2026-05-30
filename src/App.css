@@ -182,3 +182,13 @@
     border-right-color: var(--border);
   }
 }
+
+html, body {
+  min-height: 100%;
+  margin: 0;
+}
+
+#root {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #0a0a1a, #0d1b3e, #1b3a6b, #2e6b9e, #a8c8e8);
+}
