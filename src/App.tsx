@@ -1,120 +1,83 @@
+import { Input } from "@/components/ui/input"
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [results, setResults] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [savedBooks, setSavedBooks] = useState([])
+  const [hasSearched, setHasSearched] = useState(false)
+
+  async function searchBooks(query) {
+    setLoading(true)
+    const response = await fetch(`https://openlibrary.org/search.json?q=${query}&limit=10`)
+    const data = await response.json()
+    setResults(data.docs)
+    setLoading(false)
+    setHasSearched(true)
+  }
+
+  function saveBook(book) {
+    setSavedBooks([...savedBooks, book])
+  }
+
+  function clearSaved() {
+    setSavedBooks([])
+  }
+  
+  let loadingMessage = null
+  if (loading) {
+    loadingMessage = <p>Searching...</p>
+  }
+
+  let noResultsMessage = null
+  if (!loading && hasSearched && results?.length == 0) {
+    noResultsMessage = <p> We searched far and wide but found nothing. You should write the book!</p>
+  }
+
+  let savedSection = null
+  if (savedBooks.length > 0) {
+    savedSection = (
+      <div>
+        <h2>Saved Books</h2>
+        <Button onClick={clearSaved}>Clear Saved</Button>
+        {savedBooks.map((book, _) => (
+          <Card
+            key={book.key}
+          >
+            <img src={book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : ''} alt={book.title} />
+            <h2>{book.title}</h2>
+            <p>{book.author_name?.[0]}</p>
+            <p>{book.first_sentence?.[0]}</p>
+          </Card>
+        ))}
+      </div>
+    )
+  }
+
 
   return (
     <>
       <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+        <Input onInput={(e) => searchBooks(e.currentTarget.value)} />
+        {loadingMessage}
+        {noResultsMessage}
+        {results?.map((book) => (
+          <Card
+            key={book.key}
+          >
+            <img src={book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : ''} alt={book.title} />
+            <h2>{book.title}</h2>
+            <p>{book.author_name?.[0]}</p>
+            <p>{book.first_sentence?.[0]}</p>
+            <Button onClick={() => saveBook(book)}>Save This</Button>
+          </Card>
+        ))}
+        {savedSection}
       </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
     </>
   )
 }
