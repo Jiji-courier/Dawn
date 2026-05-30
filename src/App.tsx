@@ -65,9 +65,9 @@ function App() {
   return (
     <>
       <section id="center">
-        <div>
-          <button onClick={() => setActiveTab('results')}>Results</button>
-          <button onClick={() => setActiveTab('saved')}>Saved</button>
+        <div className="flex gap-2 mb-4">
+          <Button variant={activeTab === 'results' ? 'default' : 'outline'} onClick={() => setActiveTab('results')}>Results</Button>
+          <Button variant={activeTab === 'saved' ? 'default' : 'outline'} onClick={() => setActiveTab('saved')}>Saved</Button>
         </div>
         {activeTab === 'results' && (
           <>
