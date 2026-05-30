@@ -49,6 +49,7 @@ function App() {
         {savedBooks.map((book, _) => (
           <Card
             key={book.key}
+            className="bg-blue-100/20 backdrop-blur-sm rounded-lg p-4 text-white"
           >
             <img src={book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : ''} alt={book.title} />
             <h2>{book.title}</h2>
@@ -73,6 +74,7 @@ function App() {
         {results?.map((book) => (
           <Card
             key={book.key}
+            className="bg-blue-100/20 backdrop-blur-sm rounded-lg p-4 text-white"
           >
             <img src={book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : ''} alt={book.title} />
             <h2>{book.title}</h2>
