@@ -5,14 +5,22 @@ import { useState } from 'react'
 import { Spinner } from "@/components/ui/spinner"
 import './App.css'
 
+type Book = {
+  key: string
+  title: string
+  author_name?: string[]
+  first_sentence?: string[]
+  cover_i?: number
+}
+
 function App() {
-  const [results, setResults] = useState([])
+  const [results, setResults] = useState<Book[]>([])
+  const [savedBooks, setSavedBooks] = useState<Book[]>([])
   const [loading, setLoading] = useState(false)
-  const [savedBooks, setSavedBooks] = useState([])
   const [hasSearched, setHasSearched] = useState(false)
   const [activeTab, setActiveTab] = useState('library')
 
-  async function searchBooks(query) {
+  async function searchBooks(query: string) {
     setLoading(true)
     const response = await fetch(`https://openlibrary.org/search.json?q=${query}&limit=10`)
     const data = await response.json()
@@ -21,7 +29,7 @@ function App() {
     setHasSearched(true)
   }
 
-  function saveBook(book) {
+  function saveBook(book: Book) {
     setSavedBooks([...savedBooks, book])
   }
 
@@ -29,12 +37,6 @@ function App() {
     setSavedBooks([])
   }
   
-  let loadingMessage = null
-  if (loading) {
-    <Spinner />
-    loadingMessage = <p>Searching...</p>
-  }
-
   let noResultsMessage = null
   if (!loading && hasSearched && results?.length == 0) {
     noResultsMessage = <p> The shelves are quiet on that one. Perhaps it's still being written.</p>
