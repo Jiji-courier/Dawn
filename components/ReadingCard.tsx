@@ -78,16 +78,21 @@ export function ReadingCard({ book, update }: Props) {
           />
         </div>
 
-        <div className="mt-4 flex gap-2">
-          <Input
+        <div className="mt-4 flex w-56 items-center border-b border-white/50 focus-within:border-white">
+          <input
             inputMode="numeric"
             placeholder="Pages read today"
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && logPages()}
-            className="w-44"
+            onKeyDown={(e) => e.key === 'Enter' && logPages()}
+            className="min-w-0 flex-1 bg-transparent py-1 text-sm outline-none placeholder:text-white/40"
           />
-          <Button onClick={logPages}>Log</Button>
+          <button
+            onClick={logPages}
+            className="text-xs font-semibold uppercase tracking-wider text-amber-300 hover:text-amber-200"
+          >
+            + Log
+          </button>
         </div>
         {error && <p className="mt-1 text-sm text-red-300">{error}</p>}
       </div>
