@@ -10,6 +10,7 @@ export type ShelfBook = Book & {
     startDate?: string;
     startedAt?: string;
     finishedAt?: string;
+    unit?: "pages" | "episodes"; // for webtoon 
 }
 
 export const SECTIONS: { status: Status; label: string }[] = [
