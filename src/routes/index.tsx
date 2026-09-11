@@ -36,7 +36,7 @@ function Shelf() {
               ) : (
                 <div
                   key={book.id}
-                  className="mb-2 rounded-lg bg-white/10 px-4 py-3"
+                  className="mb-2 rounded-md bg-white/10 px-4 py-3"
                 >
                   <p>{book.title}</p>
                   <p className="text-sm text-white/60">{book.author}</p>

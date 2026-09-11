@@ -54,7 +54,7 @@ function Search() {
           return (
             <Card
               key={book.id}
-              className="bg-blue-100/20 backdrop-blur-sm rounded-lg p-4 text-white overflow-hidden"
+              className="bg-blue-100/20 backdrop-blur-sm rounded-md p-4 text-white overflow-hidden"
             >
               {book.coverUrl && (
                 <img

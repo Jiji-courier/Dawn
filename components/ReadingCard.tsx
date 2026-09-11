@@ -12,7 +12,7 @@ type Props = {
 function checkPages(value: string, book: ShelfBook) {
   const pages = Number(value);
   if (!Number.isInteger(pages) || pages <= 0)
-    return "Enter a whole number of pages";
+    return "Enter a positive integer";
   if (book.pageCount && book.pagesRead + pages > book.pageCount) {
     return `Only ${book.pageCount - book.pagesRead} pages left`;
   }
@@ -45,7 +45,7 @@ export function ReadingCard({ book, update }: Props) {
   }
 
   return (
-    <div className="flex gap-5 rounded-xl bg-white/15 p-5">
+    <div className="flex gap-5 rounded-md bg-white/15 p-5">
       {book.coverUrl && (
         <img
           src={book.coverUrl}
