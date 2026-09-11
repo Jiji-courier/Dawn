@@ -1,9 +1,9 @@
-import * as React from 'react'
-import { Link, Outlet, createRootRoute } from '@tanstack/react-router'
+import * as React from "react";
+import { Link, Outlet, createRootRoute } from "@tanstack/react-router";
 
 export const Route = createRootRoute({
   component: RootComponent,
-})
+});
 
 function RootComponent() {
   return (
@@ -16,14 +16,18 @@ function RootComponent() {
       </header>
 
       <nav className="flex justify-center gap-6 py-5">
-        <Link to="/" activeProps={{ className: 'underline' }} activeOptions={{ exact: true }}>
+        <Link
+          to="/"
+          activeProps={{ className: "underline" }}
+          activeOptions={{ exact: true }}
+        >
           Shelf
         </Link>
-        <Link to="/search" activeProps={{ className: 'underline' }}>
+        <Link to="/search" activeProps={{ className: "underline" }}>
           Search
         </Link>
       </nav>
       <Outlet />
     </React.Fragment>
-  )
+  );
 }
