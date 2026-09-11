@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import type { Book } from "./books";
 import { EXAMPLE_SHELF } from "./example-shelf";
 
+const KEY = "dawn-shelf";
+
 export type Status = "want" | "scheduled" | "reading" | "finished";
 
 export type ShelfBook = Book & {
