@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { ShelfBook } from "@/lib/shelf";
 import { todayISO, daysBetween } from "@/lib/dates";
+import { toast } from "sonner";
 
 type Props = {
   book: ShelfBook;
@@ -31,7 +32,15 @@ export function ReadingCard({ book, update }: Props) {
     const problem = checkPages(value, book);
     setError(problem);
     if (problem) return;
-    update(book.id, { pagesRead: book.pagesRead + Number(value) });
+
+    const newTotal = book.pagesRead + Number(value);
+    const done = book.pageCount !== undefined && newTotal >= book.pageCount;
+
+    update(book.id, {
+      pagesRead: newTotal,
+      ...(done && { status: "finished", finishedAt: todayISO() }),
+    });
+    if (done) toast.success(`${book.title} moved to Finished`);
     setValue("");
   }
 
@@ -41,6 +50,7 @@ export function ReadingCard({ book, update }: Props) {
       finishedAt: todayISO(),
       pagesRead: book.pageCount ?? book.pagesRead,
     });
+    toast.success(`${book.title} moved to Finished`);
   }
 
   return (
