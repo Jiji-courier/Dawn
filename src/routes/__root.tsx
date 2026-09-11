@@ -15,10 +15,13 @@ function RootComponent() {
         </p>
       </header>
 
-      <nav className="flex gap-6 px-8 py-5">
-        <span className="font-semibold">Dawn</span>
-        <Link to="/">Shelf</Link>
-        <Link to="/search">Search</Link>
+      <nav className="flex justify-center gap-6 py-5">
+        <Link to="/" activeProps={{ className: 'underline' }} activeOptions={{ exact: true }}>
+          Shelf
+        </Link>
+        <Link to="/search" activeProps={{ className: 'underline' }}>
+          Search
+        </Link>
       </nav>
       <Outlet />
     </React.Fragment>

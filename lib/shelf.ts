@@ -16,10 +16,10 @@ export type ShelfBook = Book & {
 }
 
 export const SECTIONS: { status: Status; label: string }[] = [
-    { status: "reading", label: "Dawn · in hand" },
-    { status: "want", label: "Night" },
-    { status: "scheduled", label: "Before Dawn" },
-    { status: "finished", label: "Daylight" },
+    { status: "reading", label: "Reading" },
+    { status: "want", label: "Want to read" },
+    { status: "scheduled", label: "Scheduled" },
+    { status: "finished", label: "Finished" },
 ];
 
 export function useShelf() {
