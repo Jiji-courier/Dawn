@@ -1,9 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useShelf, SECTIONS, type ShelfBook } from "@/lib/shelf";
-import { formatDate } from "@/lib/dates";
+import { formatDate, todayISO, daysBetween } from "@/lib/dates";
 import { ReadingCard } from "@/components/ReadingCard";
 import { Spine } from "@/components/Spine";
+import { SchedulePicker } from "@/components/SchedulePicker";
+import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export const Route = createFileRoute("/")({
   component: Shelf,
@@ -61,7 +64,9 @@ function Shelf() {
                   </div>
                 </div>
                 <div className="shelf-ledge rounded-b-sm" />
-                {selected?.status === status && <BookDetails book={selected} />}
+                {selected?.status === status && (
+                  <BookDetails book={selected} update={update} />
+                )}
               </>
             )}
           </section>
@@ -75,19 +80,80 @@ function Shelf() {
   );
 }
 
-function BookDetails({ book }: { book: ShelfBook }) {
+type DetailsProps = {
+  book: ShelfBook;
+  update: (id: string, changes: Partial<ShelfBook>) => void;
+};
+
+function BookDetails({ book, update }: DetailsProps) {
+  const overdue =
+    book.status === "scheduled" &&
+    book.startDate !== undefined &&
+    book.startDate < todayISO();
+
+  function startNow() {
+    update(book.id, {
+      status: "reading",
+      startedAt: todayISO(),
+      startDate: undefined,
+    });
+  }
+
   return (
     <div className="mt-3 flex gap-4 rounded-md bg-white/10 p-4">
       {book.coverUrl && (
         <img src={book.coverUrl} alt={book.title} className="w-16 rounded" />
       )}
-      <div>
+
+      <div className="flex-1">
         <p className="font-medium">{book.title}</p>
         <p className="text-sm text-white/60">{book.author}</p>
-        {book.startDate && (
+
+        {book.startDate && !overdue && (
           <p className="mt-1 text-sm text-white/60">
             Starts {formatDate(book.startDate)}
           </p>
+        )}
+        {overdue && book.startDate && (
+          <p className="mt-1 text-sm text-amber-300">
+            Sunrise was {daysBetween(book.startDate, todayISO())} days ago
+          </p>
+        )}
+
+        {book.status !== "finished" && (
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Button size="sm" onClick={startNow}>
+              Start now
+            </Button>
+
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button size="sm" variant="outline">
+                  {book.status === "scheduled" ? "Reschedule" : "Schedule"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <SchedulePicker
+                  startDate={book.startDate}
+                  onPick={(iso) =>
+                    update(book.id, { status: "scheduled", startDate: iso })
+                  }
+                />
+              </PopoverContent>
+            </Popover>
+
+            {book.status === "scheduled" && (
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() =>
+                  update(book.id, { status: "want", startDate: undefined })
+                }
+              >
+                Unschedule
+              </Button>
+            )}
+          </div>
         )}
       </div>
     </div>
