@@ -11,8 +11,7 @@ type Props = {
 
 function checkPages(value: string, book: ShelfBook) {
   const pages = Number(value);
-  if (!Number.isInteger(pages) || pages <= 0)
-    return "Enter a positive integer";
+  if (!Number.isInteger(pages) || pages <= 0) return "Enter a positive integer";
   if (book.pageCount && book.pagesRead + pages > book.pageCount) {
     return `Only ${book.pageCount - book.pagesRead} pages left`;
   }
@@ -93,7 +92,7 @@ export function ReadingCard({ book, update }: Props) {
             placeholder="Pages read today"
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && logPages()}
+            onKeyDown={(e) => e.key === "Enter" && logPages()}
             className="min-w-0 flex-1 bg-transparent py-1 text-sm outline-none placeholder:text-white/40"
           />
           <button

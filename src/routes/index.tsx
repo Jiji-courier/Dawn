@@ -6,7 +6,11 @@ import { ReadingCard } from "@/components/ReadingCard";
 import { Spine } from "@/components/Spine";
 import { SchedulePicker } from "@/components/SchedulePicker";
 import { Button } from "@/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export const Route = createFileRoute("/")({
   component: Shelf,
@@ -116,7 +120,9 @@ function BookDetails({ book, update }: DetailsProps) {
         )}
         {overdue && book.startDate && (
           <p className="mt-1 text-sm text-amber-300">
-            Sunrise was {daysBetween(book.startDate, todayISO())} days ago
+            The best time to read this was{" "}
+            {daysBetween(book.startDate, todayISO())} days ago, the second best
+            is now
           </p>
         )}
 
